@@ -57,7 +57,6 @@ builder.Services.AddSwaggerGen(options =>
                 {
                     Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
                     Id = "Bearer"
-                    .
                 }
             },
             Array.Empty<string>()

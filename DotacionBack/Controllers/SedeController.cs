@@ -1,6 +1,7 @@
 ﻿using DotacionBack.Application.DTOs;
 using DotacionBack.Application.Interfaces.Repositories;
 using DotacionBack.Domain.Entities;
+using DotacionBack.Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotacionBack.Controllers
@@ -25,6 +26,24 @@ namespace DotacionBack.Controllers
             var result = await _repository.GetAllAsync();
             return Ok(result);
         }
+
+        /// <summary>Obtiene las sedes por institución</summary>
+        [HttpGet("{institucionId}")]
+        [ProducesResponseType(typeof(IEnumerable<SedeEntity>), 200)]
+        public async Task<IActionResult> GetByInstitucionId(int institucionId)
+        {
+            var result = await _repository.GetResumenDotacionBySedeId(institucionId);
+            return Ok(result);
+        }
+
+        [HttpGet("{sedeId}/dotacion")]
+        [ProducesResponseType(typeof(IEnumerable<DotacionPorSedeDto>), 200)]
+        public async Task<IActionResult> GetDotacionBySedeId(int sedeId)
+        {
+            var result = await _repository.GetDotacionBySedeId(sedeId);
+            return Ok(result);
+        }
+
 
         /// <summary>Registra una nueva sede</summary>
         [HttpPost]

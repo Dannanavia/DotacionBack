@@ -11,6 +11,7 @@ namespace DotacionBack.Application.Interfaces.Repositories
     {
         Task<IEnumerable<InstitucionEntity>> GetAllAsync();
         Task<InstitucionEntity?> GetByIdAsync(int id);
+        Task<IEnumerable<InstitucionEntity>> GetAllByMunicipioId(int MunicipioId);
         Task AddAsync(InstitucionEntity institucion);
     }
 }

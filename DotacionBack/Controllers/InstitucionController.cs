@@ -28,6 +28,16 @@ namespace DotacionBack.Controllers
             return Ok(result);
         }
 
+        /// <summary>Obtiene las instituciones por municipio</summary>
+        [HttpGet("{MunicipioId}")]
+        [ProducesResponseType(typeof(IEnumerable<InstitucionEntity>), 200)]
+        public async Task<IActionResult> GetByMunicipioId(int municipioId)
+        {
+            var result = await _repository.GetAllByMunicipioId(municipioId);
+            return Ok(result);
+        }
+
+
         /// <summary>Registra una nueva institución</summary>
         [HttpPost]
         [ProducesResponseType(typeof(InstitucionEntity), 201)]

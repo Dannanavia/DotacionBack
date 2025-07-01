@@ -1,4 +1,5 @@
-﻿using DotacionBack.Application.Interfaces.Repositories;
+﻿using DotacionBack.Application.DTOs;
+using DotacionBack.Application.Interfaces.Repositories;
 using DotacionBack.Domain.Entities;
 using DotacionBack.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
@@ -68,6 +69,44 @@ namespace DotacionBack.Infrastructure.Persistence.Repositories
             await _context.Sede.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<SedeDotacionResumenDto>> GetResumenDotacionBySedeId(int institucionId)
+        {
+            return await _context.Sede
+                .Where(s => s.FkIdInstitucion == institucionId)
+                .Select(s => new SedeDotacionResumenDto
+                {
+                    IdSede = s.IdSede,
+                    NombreSede = s.NombreSede,
+                    DireccionSede = s.DireccionSede,
+                    ZonaSede = s.ZonaSede,
+
+                    CantidadResidenciasEscolares = s.Dotacion
+                        .Where(d => d.FkIdTipodotacionNavigation.NombreTipodotacion == "Dotacion de residencias escolares")
+                        .Sum(d => d.CantidadDotacion),
+
+                    CantidadDotacionesAulas = s.Dotacion
+                        .Where(d => d.FkIdTipodotacionNavigation.NombreTipodotacion == "Dotaciones de aulas")
+                        .Sum(d => d.CantidadDotacion)
+                })
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<DotacionPorSedeDto>> GetDotacionBySedeId(int sedeId)
+        {
+            return await _context.Dotacion
+                .Where(d => d.FkIdSede == sedeId)
+                .Select(d => new DotacionPorSedeDto
+                {
+                    IdArticulo = d.FkIdArticuloNavigation.IdArticulo,
+                    DescripcionArticulo = d.FkIdArticuloNavigation.DescripcionArticulo,
+                    TipoDotacion = d.FkIdTipodotacionNavigation.NombreTipodotacion,
+                    Cantidad = d.CantidadDotacion
+                })
+                .ToListAsync();
+        }
+
+
     }
 
 }

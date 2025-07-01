@@ -46,6 +46,34 @@ namespace DotacionBack.Infrastructure.Persistence.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<InstitucionEntity>> GetAllByMunicipioId(int idMunicipio)
+        {
+            return await _context.Institucion
+                .Where(x => x.FkIdMunicipio == idMunicipio)
+                .Select(x => new InstitucionEntity
+                {
+                    IdInstitucion = x.IdInstitucion,
+                    NombreInstitucion = x.NombreInstitucion,
+                    CalendarioInstitucion = x.CalendarioInstitucion,
+                    CodigodaneInstitucion = x.CodigodaneInstitucion,
+                    FkIdMunicipio = x.FkIdMunicipio,
+                    Sede = x.Sede.Select(s => new SedeEntity
+                    {
+                        IdSede = s.IdSede,
+                        NombreSede = s.NombreSede,
+                        CodigodaneSede = s.CodigodaneSede,
+                        DireccionSede = s.DireccionSede,
+                        LatitudSede = s.LatitudSede,
+                        LongitudSede = s.LongitudSede,
+                        ZonaSede = s.ZonaSede,
+                        FkIdInstitucion = s.FkIdInstitucion
+                    }).ToList()
+                })
+                .ToListAsync();
+        }
+
+
+
 
         public async Task<InstitucionEntity?> GetByIdAsync(int id)
         {

@@ -1,10 +1,12 @@
 ﻿using DotacionBack.Application.DTOs;
 using DotacionBack.Application.Interfaces.Repositories;
 using DotacionBack.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotacionBack.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]

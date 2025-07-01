@@ -1,4 +1,5 @@
-﻿using DotacionBack.Domain.Entities;
+﻿using DotacionBack.Application.DTOs;
+using DotacionBack.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace DotacionBack.Application.Interfaces.Repositories
     {
         Task<IEnumerable<SedeEntity>> GetAllAsync();
         Task<SedeEntity?> GetByIdAsync(int id);
+        Task<IEnumerable<SedeDotacionResumenDto>> GetResumenDotacionBySedeId(int InstitucionId);
+        Task<IEnumerable<DotacionPorSedeDto>> GetDotacionBySedeId(int sedeId);
         Task AddAsync(SedeEntity sede);
     }
 }
